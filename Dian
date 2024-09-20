@@ -1,0 +1,73 @@
+#include <stdio.h>
+
+// 1.×´Ì¬ 
+typedef enum {
+    Place,
+    Buy,
+    Pay
+} State;
+
+// 2.ÊÂ¼þ 
+typedef enum {
+    Next,
+    Back
+} Event;
+
+// 3.
+State FSM(State state, Event event) {
+    switch (state) {
+        case Place:
+            switch (event) {
+                case Next:
+                    return Buy;
+                default:
+                    return Place;
+            }
+        case Buy:
+            switch (event) {
+                case Next:
+                    return Pay;
+                default:
+                    return Place;
+            }
+        case Pay:
+            switch (event) {
+                case Next:
+                    return Buy;
+                default:
+                    return Pay;
+            }
+        default:
+            return Place; // ????????
+    }
+}
+
+int main() {
+    State state = Place; // ³õÊ¼×´Ì¬ 
+    Event event;
+
+    printf("³õÊ¼×´Ì¬: °Ú·Å\n");
+    while (1) {
+        printf("ÊäÈëÊÂ¼þ (0-Next, 1-Back, 2-ÍË³ö): ");
+        scanf("%d", &event);
+
+        if (event == 2) {
+            break;
+        }
+
+        state = FSM(state, event);
+        switch (state) {
+            case Place:
+                printf("×´Ì¬: °Ú·Å\n");
+                break;
+            case Buy:
+                printf("×´Ì¬: Ñ¡¹º\n");
+                break;
+            case Pay:
+                printf("×´Ì¬: ¸¶¿î\n");
+                break;
+        }
+    }
+
+    return 0;
+}
